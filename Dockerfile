@@ -13,13 +13,14 @@ RUN wget http://www.mixmod.org/IMG/deb/mixmodGUI_1-2-1_x86_64-applications.deb
 RUN dpkg -i ./mixmodGUI_1-2-1_x86_64-applications.deb
 RUN apt-get install -y -f
 
-RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/mixmoduser && \
-    echo "mixmoduser:x:${uid}:${gid}:Mixmod User,,,:/home/mixmoduser:/bin/bash" >> /etc/passwd && \
-    echo "mixmoduser:x:${uid}:" >> /etc/group && \
+ARG UID
+ARG GID
+RUN mkdir -p /home/mixmoduser && \
+    echo "mixmoduser:x:${UID}:${GID}:Mixmod User,,,:/home/mixmoduser:/bin/bash" >> /etc/passwd && \
+    echo "mixmoduser:x:${UID}:" >> /etc/group && \
     echo "mixmoduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/mixmoduser && \
     chmod 0440 /etc/sudoers.d/mixmoduser && \
-    chown ${uid}:${gid} -R /home/mixmoduser
+    chown ${UID}:${GID} -R /home/mixmoduser
 
 USER mixmoduser
 ENV HOME /home/mixmoduser
