@@ -1,0 +1,8 @@
+mixmod:
+  image: mixmod
+  environment:
+    DISPLAY: unix${DISPLAY}
+  volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    - $HOME/.Xauthority:/home/mixmoduser/.Xauthority
+  command: mixmodGUI
