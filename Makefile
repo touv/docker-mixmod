@@ -4,13 +4,8 @@ PORT=3000
 .PHONY: start stop
 
 build: Dockerfile
-	docker build -t ${NAME}  --build-arg http_proxy --build-arg https_proxy .
+	@docker build -t ${NAME}  --build-arg http_proxy --build-arg https_proxy .
 
 run:
-	docker run  -d -v `pwd`/data:/data ${NAME}
+	@docker run -ti --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix:/tmp/.X11-unix ${NAME} mixmodGUI
 
-start:
-	docker run -p ${PORT}:3000 -d -v `pwd`/data:/data ${NAME}
-
-stop:
-	DID=`docker ps | grep ${NAME} | awk '{print $$1}'` && docker stop $$DID
