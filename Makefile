@@ -4,7 +4,12 @@ PORT=3000
 .PHONY: start stop
 
 build: Dockerfile
-	docker build -t ${NAME}  --build-arg http_proxy --build-arg https_proxy .
+	docker build -t ${NAME} \
+		--build-arg http_proxy \
+		--build-arg https_proxy \
+		--build-arg UID=$(shell id -u) \
+		--build-arg GID=$(shell id -g) \
+		.
 
 run:
 	docker run  -d -v `pwd`/data:/data ${NAME}
